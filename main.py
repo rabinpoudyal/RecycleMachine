@@ -1,6 +1,8 @@
 from recycableitem import RecycableItem
 from recycablemachine import RecycableMachine
 
+import code
+
 allitems = []
 can = RecycableItem('Can', 0.2, 1, 0)
 allitems.append(can)
@@ -96,6 +98,7 @@ def main():
             name = input(
                 "Balance: $%.2f. Please select a product: (Can, Bottle, Paper, Stop): " % (recycableMachine.total_balance))
             selected_item = None
+
             if name.lower() == 'stop':
                 break
             for item in allitems:
@@ -104,19 +107,9 @@ def main():
             if selected_item is None:
                 print("Select an item from the given list.")
                 continue
-            quantity = get_int("How many % ss do you have?: " % (name))
-            if recycableMachine.max_items < recycableMachine.total_items + quantity:
-                print("No space for %d items." % (quantity))
-                continue
-            selected_item.quantity = quantity
-            print("Please place %d %ss into machine." % (quantity, name))
-            for i in range(quantity):
-                print("%s accepted" % (name))
             recycableMachine.accept_product(selected_item)
-            print("You added %d %s(s) for $%.2f each. You have $%.2f." %
-                  (quantity, name, selected_item.price, recycableMachine.total_balance))
         recycableMachine.print_receipt()
-        bag_items(recycableMachine.add_item)
+        bag_items(recycableMachine.item_list)
         nextCustomer = input("(N)ext customer, or (Q)uit? ")
         if nextCustomer.lower() == 'q':
             break
